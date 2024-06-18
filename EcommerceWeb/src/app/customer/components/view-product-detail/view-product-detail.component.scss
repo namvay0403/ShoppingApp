@@ -1,0 +1,148 @@
+.center-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product-card{
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.product-card .product-image img {
+    max-width: 300px;
+    height: 300px;
+    border-radius: 9px;
+}
+
+
+.product-card h2 {
+    font-size: 24px;
+    margin: 10px 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.product-card description {
+    font-size: 16px;
+    color: #666;
+}
+
+.product-card .price {
+    font-size: 20px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.product-card .category {
+    font-size: 20px;
+    color: #777;
+    font-weight: bold;
+}
+
+.product-card .heart-icon{
+    color: #ff4081;
+    font-size: 24px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.review-card{
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    // margin-top: 20px;
+}
+
+.review-card .review-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.select-heading{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    // margin-bottom: 20px;
+    text-align: center;
+}
+
+.review-card h2{
+    font-size: 20px;
+    // margin: 10px 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.review-card .details-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 250px;
+    max-width: 100%;
+}
+
+.review-card .rating, 
+.review-card .username{
+    font-size: 16px;
+}
+
+.faq-list{
+    margin-top: 30px;
+}
+
+.faq-card{
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    // margin-bottom: 20px;
+    display: flex;
+}
+
+.faq-card .details-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-card .question,
+.faq-card .answer{
+    font-size: 16px;
+    color: #333;
+}
+
+.section-heading{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    // margin-bottom: 20px;
+    text-align: center;
+}
+
+.small-image{
+    max-width: 80px;
+    max-height: 60px;
+}
+
+.faq-card .question-text,
+.faq-card .answer-text{
+    margin-left: 20px;
+}
+
+
+
+
+
+  

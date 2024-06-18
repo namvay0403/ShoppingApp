@@ -1,0 +1,18 @@
+<div class="center-container">
+  <div class="product-card" *ngFor="let product of products">
+    <div class="product-image">
+      <img [src]="product.processedImg" alt="product image" />
+    </div>
+    <div class="product-details">
+      <h2>{{ product.productName }}</h2>
+      <p class="description">{{ product.productDescription }}</p>
+      <p class="price">Price: {{ product.price | currency }}</p>
+    </div>
+    <div class="add-to-cart-button">
+      <button mat-raised-button color="primary">Add to Cart</button>
+    </div>
+    <div class="delete-button">
+      <button mat-raised-button color="warn">Delete</button>
+    </div>
+  </div>
+</div>

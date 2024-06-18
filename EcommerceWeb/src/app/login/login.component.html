@@ -21,7 +21,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <button
+          <!-- <button
             mat-icon-button
             matSuffix
             (click)="togglePasswordVisibility()"
@@ -29,11 +29,12 @@
             <mat-icon>{{
               hidePassword ? "visibility_off" : "visibility"
             }}</mat-icon>
-          </button>
+          </button> -->
           <input
             matInput
             formControlName="password"
             placeholder="password"
+            type="{{ hidePassword ? 'password' : 'text' }}"
             required
           />
           <mat-error

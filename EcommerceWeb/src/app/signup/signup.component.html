@@ -40,7 +40,7 @@
             placeholder="Password"
             required
           />
-          <button
+          <!-- <button
             mat-icon-button
             matSuffix
             (click)="togglePasswordVisibility()"
@@ -48,7 +48,7 @@
             <mat-icon>{{
               hidePassword ? "visibility_off" : "visibility"
             }}</mat-icon>
-          </button>
+          </button> -->
           <mat-error
             *ngIf="
               signupForm.get('password').invalid &&
@@ -67,7 +67,7 @@
             placeholder="Confirm Password"
             required
           />
-          <button
+          <!-- <button
             mat-icon-button
             matSuffix
             (click)="togglePasswordVisibility()"
@@ -75,7 +75,7 @@
             <mat-icon>{{
               hidePassword ? "visibility_off" : "visibility"
             }}</mat-icon>
-          </button>
+          </button> -->
           <mat-error
             *ngIf="
               signupForm.get('confirmPassword').invalid &&

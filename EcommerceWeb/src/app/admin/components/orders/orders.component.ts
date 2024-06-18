@@ -5,10 +5,9 @@ import { AdminService } from '../../service/admin.service';
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
-  styleUrl: './orders.component.scss'
+  styleUrl: './orders.component.scss',
 })
 export class OrdersComponent {
-
   orders: any;
 
   constructor(
@@ -26,5 +25,24 @@ export class OrdersComponent {
     this.adminService.getPlacedOrders().subscribe((response) => {
       this.orders = response;
     });
+  }
+
+  changeOrderStatus(orderId: number, status: string) {
+    console.log(orderId, status);
+    this.adminService
+      .changeOrderStatus(orderId, status)
+      .subscribe((response) => {
+        if (response.id != null) {
+          this.snackBar.open('Order status updated successfully', 'Close', {
+            duration: 2000,
+          });
+          this.getPlacedOrders();
+        } else {
+          console.log(response.message);
+          this.snackBar.open(response.message, 'Close', {
+            duration: 2000,
+          });
+        }
+      });
   }
 }

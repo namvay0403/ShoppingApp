@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { UserStorageService } from '../storage/user-storage.service';
+import { AnySrvRecord } from 'dns';
 
 const BASIC_URL = 'http://localhost:8080/';
 
@@ -37,5 +38,9 @@ export class AuthService {
           return false;
         })
       );
+  }
+
+  getOrderTrackingId(trackingId: number) {
+    return this.http.get(BASIC_URL + `order/${trackingId}`);
   }
 }

@@ -13,6 +13,11 @@ import { PostCouponComponent } from './components/post-coupon/post-coupon.compon
 import { CouponsComponent } from './components/coupons/coupons.component';
 import { MatTableModule } from '@angular/material/table';
 import { OrdersComponent } from './components/orders/orders.component';
+import { PostProductFaqComponent } from './components/post-product-faq/post-product-faq.component';
+import { UpdateProductComponent } from './components/update-product/update-product.component';
+import { ViewOrderedProductComponent } from '../customer/components/view-ordered-product/view-ordered-product.component';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { OrderByStatusComponent } from './components/analytics/order-by-status/order-by-status.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +28,11 @@ import { OrdersComponent } from './components/orders/orders.component';
     PostCouponComponent,
     CouponsComponent,
     OrdersComponent,
+    PostProductFaqComponent,
+    UpdateProductComponent,
+    ViewOrderedProductComponent,
+    AnalyticsComponent,
+    OrderByStatusComponent,
   ],
   imports: [
     CommonModule,

@@ -74,6 +74,45 @@ export class CustomerService {
     });
   }
 
+  getOrderByUserId(): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.get(BASE_URL + `api/customer/myOrders/${userId}`, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
+  getOrderedProducts(orderId: any): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.get(BASE_URL + `api/customer/ordered-products/${orderId}`, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
+  getProductDetailById(productId: any): Observable<any> {
+    return this.http.get(BASE_URL + `api/customer/product/${productId}`, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
+  giveReview(reviewDto: any): Observable<any> {
+    return this.http.post(BASE_URL + `api/customer/review`,reviewDto, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
+  addProductToWishlist(wishlistDto: any): Observable<any> {
+    return this.http.post(BASE_URL + `api/customer/wishlist`, wishlistDto, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
+  getWishlistByUserId(): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.get(BASE_URL + `api/customer/wishlist/${userId}`, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
   private createAuthorizationHeader() {
     return new HttpHeaders().set(
       'Authorization',

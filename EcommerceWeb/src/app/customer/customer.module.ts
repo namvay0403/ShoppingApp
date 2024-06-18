@@ -9,14 +9,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CartComponent } from './components/cart/cart.component';
 import { PlaceOrderComponent } from './components/place-order/place-order.component';
-
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
+import { MatTableModule } from '@angular/material/table';
+import { ReviewOrderedProductComponent } from './components/review-ordered-product/review-ordered-product.component';
+import { ViewProductDetailComponent } from './components/view-product-detail/view-product-detail.component';
+import { ViewWishlistComponent } from './components/view-wishlist/view-wishlist.component';
 
 @NgModule({
   declarations: [
     CustomerComponent,
     DashboardComponent,
     CartComponent,
-    PlaceOrderComponent
+    PlaceOrderComponent,
+    MyOrdersComponent,
+    ReviewOrderedProductComponent,
+    ViewProductDetailComponent,
+    ViewWishlistComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +32,8 @@ import { PlaceOrderComponent } from './components/place-order/place-order.compon
     DemoAngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+    MatTableModule
+  ],
 })
-export class CustomerModule { }
+export class CustomerModule {}
