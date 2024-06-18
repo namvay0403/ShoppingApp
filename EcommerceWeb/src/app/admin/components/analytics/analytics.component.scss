@@ -1,0 +1,58 @@
+.analytics-container{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.analytics-card{
+    width: 40%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.analytics-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.metric-avatar{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 32;
+    background-color: #007bff;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mat-card-title{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
+.metric-value{
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 10px;
+    color: #007bff;
+}
+
+
+.metric-subtext{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.preview-month{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 10px;
+}

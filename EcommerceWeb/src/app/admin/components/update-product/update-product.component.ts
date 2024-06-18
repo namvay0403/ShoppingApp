@@ -1,26 +1,29 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { AdminService } from '../../service/admin.service';
-import { log } from 'console';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-post-product',
-  templateUrl: './post-product.component.html',
-  styleUrl: './post-product.component.scss',
+  selector: 'app-update-product',
+  templateUrl: './update-product.component.html',
+  styleUrl: './update-product.component.scss',
 })
-export class PostProductComponent {
+export class UpdateProductComponent {
   productForm: FormGroup;
   listOfCategories: any[] = [];
   selectedFile: File | null;
   imagePreview: string | ArrayBuffer | null;
+  productId: number = this.activatedRoute.snapshot.params['productId'];
+  existingImage: string | ArrayBuffer | null;
+  imgChanged: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private adminService: AdminService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   onFileSelected(event: any) {
@@ -35,6 +38,9 @@ export class PostProductComponent {
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result;
+        this.imgChanged = true;
+
+        this.existingImage = null;
       };
       reader.readAsDataURL(this.selectedFile);
     }
@@ -52,6 +58,24 @@ export class PostProductComponent {
     });
 
     this.getAllCategories();
+    this.getProductById(this.productId);
+  }
+
+  getProductById(productId: number) {
+    this.adminService.getProductById(productId).subscribe(
+      (res) => {
+        this.productForm.patchValue({
+          name: res.name,
+          description: res.description,
+          price: res.price,
+          categoryId: res.categoryId,
+        });
+        this.existingImage = 'data:image/jpeg;base64,' + res.byteImg;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   getAllCategories() {
@@ -65,25 +89,31 @@ export class PostProductComponent {
     );
   }
 
-  addProduct(): void {
+  updateProduct(): void {
     if (this.productForm.valid) {
+      console.log(
+        'data to be updated: ',
+        this.productForm.value,
+        this.productId
+      );
+
       const formData: FormData = new FormData();
-      formData.append('name', this.productForm.get('name')!.value);
-      if (this.productForm.get('description')!.value) {
-        formData.append(
-          'description',
-          this.productForm.get('description')!.value
-        );
-      } else {
-        formData.append('description', '');
+
+      if (this.imgChanged && this.selectedFile) {
+        formData.append('img', this.selectedFile!);
       }
+
+      formData.append('name', this.productForm.get('name')!.value);
+      formData.append(
+        'description',
+        this.productForm.get('description')!.value
+      );
       formData.append('price', this.productForm.get('price')!.value);
       formData.append('categoryId', this.productForm.get('categoryId')!.value);
-      formData.append('img', this.selectedFile!);
 
-      this.adminService.addProduct(formData).subscribe(
+      this.adminService.updateProduct(this.productId, formData).subscribe(
         (res) => {
-          this.snackBar.open('Product added successfully', 'Close', {
+          this.snackBar.open('Product updated successfully', 'Close', {
             duration: 2000,
           });
           this.router.navigateByUrl('/admin/dashboard');
