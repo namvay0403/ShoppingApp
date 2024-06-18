@@ -1,6 +1,8 @@
 package com.nam.ShoppingApp.controller.admin;
 
+import com.nam.ShoppingApp.dto.FAQDto;
 import com.nam.ShoppingApp.dto.ProductDto;
+import com.nam.ShoppingApp.services.admin.faq.FAQService;
 import com.nam.ShoppingApp.services.admin.product.AdminProductService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AdminProductController {
   @Autowired private AdminProductService adminProductService;
+
+  @Autowired private FAQService faqService;
 
   @PostMapping("/product")
   public ResponseEntity<?> createProduct(@ModelAttribute ProductDto productDto) throws IOException {
@@ -38,5 +42,21 @@ public class AdminProductController {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.notFound().build();
+  }
+
+  @PostMapping("/faq/{productId}")
+  public ResponseEntity<FAQDto> postFAQ(@PathVariable Long productId, @RequestBody FAQDto faqDto) {
+    return ResponseEntity.ok(faqService.postFAQ(productId, faqDto));
+  }
+
+  @GetMapping("/product/{productId}")
+  public ResponseEntity<?> getProductById(@PathVariable Long productId) {
+    return ResponseEntity.ok(adminProductService.getProductById(productId));
+  }
+
+  @PutMapping("/product/{productId}")
+  public ResponseEntity<?> updateProduct(
+      @ModelAttribute ProductDto productDto, @PathVariable Long productId) {
+    return ResponseEntity.ok(adminProductService.updateProduct(productDto, productId));
   }
 }

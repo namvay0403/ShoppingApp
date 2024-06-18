@@ -1,6 +1,7 @@
 package com.nam.ShoppingApp.services.admin.product;
 
 import com.nam.ShoppingApp.dto.ProductDto;
+import com.nam.ShoppingApp.entity.Category;
 import com.nam.ShoppingApp.entity.Product;
 import com.nam.ShoppingApp.repository.CategoryRepository;
 import com.nam.ShoppingApp.repository.ProductRepository;
@@ -44,5 +45,34 @@ public class AdminProductServiceImpl implements AdminProductService {
       return true;
     }
     return true;
+  }
+
+  public ProductDto getProductById(Long id) {
+    Optional<Product> optionalProduct = productRepository.findById(id);
+    if (optionalProduct.isPresent()) {
+      return optionalProduct.get().getDto();
+    }
+    return null;
+  }
+
+  public ProductDto updateProduct(ProductDto productDto, Long productId) {
+    Optional<Product> optionalProduct = productRepository.findById(productId);
+    Optional<Category> optionalCategory = categoryRepository.findById(productDto.getCategoryId());
+    if (optionalProduct.isPresent() && optionalCategory.isPresent()) {
+      Product product = optionalProduct.get();
+      product.setName(productDto.getName());
+      product.setDescription(productDto.getDescription());
+      product.setPrice(productDto.getPrice());
+      if (productDto.getImg() != null) {
+        try {
+          product.setImg(productDto.getImg().getBytes());
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      product.setCategory(optionalCategory.get());
+      return productRepository.save(product).getDto();
+    }
+    return null;
   }
 }

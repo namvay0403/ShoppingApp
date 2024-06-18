@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/customer")
 @RequiredArgsConstructor
 public class CustomerProductController {
-    @Autowired private CustomerProductService customerProductService;
+  @Autowired private CustomerProductService customerProductService;
 
+  @GetMapping("/products")
+  public ResponseEntity<?> getAllProducts() {
+    return ResponseEntity.ok(customerProductService.getAllProducts());
+  }
 
-    @GetMapping("/products")
-    public ResponseEntity<?> getAllProducts() {
-        return ResponseEntity.ok(customerProductService.getAllProducts());
-    }
+  @GetMapping("/search/{name}")
+  public ResponseEntity<?> getAllProductsByName(@PathVariable String name) {
+    return ResponseEntity.ok(customerProductService.getAllProductsByName(name));
+  }
 
-    @GetMapping("/search/{name}")
-    public ResponseEntity<?> getAllProductsByName(@PathVariable String name) {
-        return ResponseEntity.ok(customerProductService.getAllProductsByName(name));
-    }
+  @GetMapping("/product/{productId}")
+  public ResponseEntity<?> getProductDetailById(@PathVariable Long productId) {
+    return ResponseEntity.ok(customerProductService.getProductDetailById(productId));
+  }
 }
