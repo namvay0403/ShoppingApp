@@ -53,4 +53,9 @@ public class CartController {
   public ResponseEntity<OrderDto> placeOrder(@RequestBody PlaceOrderDto placeOrderDto) {
     return ResponseEntity.ok(cartService.placeOrder(placeOrderDto));
   }
+
+  @GetMapping("/myOrders/{userId}")
+  public ResponseEntity<?> getMyPlacedOrders(@PathVariable Long userId) {
+    return ResponseEntity.ok(cartService.getMyPlacedOrders(userId));
+  }
 }

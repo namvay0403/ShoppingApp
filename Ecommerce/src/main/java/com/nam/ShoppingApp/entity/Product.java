@@ -11,8 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Data
 @Table(name = "product")
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
-
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +30,6 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private Category category;
 
     public ProductDto getDto() {
