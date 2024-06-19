@@ -51,7 +51,7 @@ export class ViewProductDetailComponent {
       productId: this.productId,
       userId: UserStorageService.getUserId(),
     };
-
+    console.log('wishlistDto' + wishlistDto);
     this.customerService.addProductToWishlist(wishlistDto).subscribe(
       (response: any) => {
         if (response.id != null) {

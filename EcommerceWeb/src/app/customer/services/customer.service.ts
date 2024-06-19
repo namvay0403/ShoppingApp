@@ -33,6 +33,16 @@ export class CustomerService {
     });
   }
 
+  removeItemFromCart(productId: any): Observable<any> {
+    const cartDto = {
+      productId: productId,
+      userId: UserStorageService.getUserId(),
+    };
+    return this.http.post(BASE_URL + `api/customer/cart/removal`, cartDto, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
   getCartByUserId(): Observable<any> {
     const userId = UserStorageService.getUserId();
     return this.http.get(BASE_URL + `api/customer/cart/${userId}`, {
@@ -105,6 +115,13 @@ export class CustomerService {
       headers: this.createAuthorizationHeader(),
     });
   }
+
+  removeItemFromWishlist(wishlistDto: any): Observable<any> {
+    return this.http.post(BASE_URL + `api/customer/wishlist/removal`, wishlistDto, {
+      headers: this.createAuthorizationHeader(),
+    });
+  }
+
 
   getWishlistByUserId(): Observable<any> {
     const userId = UserStorageService.getUserId();

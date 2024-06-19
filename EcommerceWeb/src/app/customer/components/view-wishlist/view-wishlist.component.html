@@ -1,18 +1,39 @@
-<div class="center-container">
-  <div class="product-card" *ngFor="let product of products">
-    <div class="product-image">
-      <img [src]="product.processedImg" alt="product image" />
-    </div>
-    <div class="product-details">
-      <h2>{{ product.productName }}</h2>
-      <p class="description">{{ product.productDescription }}</p>
-      <p class="price">Price: {{ product.price | currency }}</p>
-    </div>
-    <div class="add-to-cart-button">
-      <button mat-raised-button color="primary">Add to Cart</button>
-    </div>
-    <div class="delete-button">
-      <button mat-raised-button color="warn">Delete</button>
+<div *ngIf="products.length > 0; else emptyWishlist">
+  <div class="center-container">
+    <div class="product-card" *ngFor="let product of products">
+      <div class="product-image">
+        <img [src]="product.processedImg" alt="product image" />
+      </div>
+      <div class="product-details">
+        <h2>{{ product.productName }}</h2>
+        <p class="description">{{ product.productDescription }}</p>
+        <p class="price">Price: {{ product.price | currency }}</p>
+      </div>
+      <div class="add-to-cart-button">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addToCart(product.productId)"
+        >
+          Add to Cart
+        </button>
+      </div>
+      <div class="delete-button">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="removeFromWishlist(product.productId)"
+        >
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #emptyWishlist>
+  <div class="empty-wishlist">
+    <mat-icon class="icon"> favorite icon </mat-icon>
+    <span>Nothing to see here</span>
+  </div>
+</ng-template>

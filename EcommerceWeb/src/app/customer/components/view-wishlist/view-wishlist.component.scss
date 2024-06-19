@@ -54,3 +54,18 @@
     cursor: pointer;
     margin-top: 10px;
 }
+
+.empty-wishlist{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: rgb(220, 51, 51);
+
+    span{
+        font-size: 18px;
+        color: #616161;
+        margin-top: 10px;
+    }
+}
