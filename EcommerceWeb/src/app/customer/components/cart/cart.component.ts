@@ -82,4 +82,10 @@ export class CartComponent {
   placeOrder() {
     this.dialog.open(PlaceOrderComponent)
   }
+
+  removeItem(productId: any) {
+    this.customerService
+      .removeItemFromCart(productId)
+      .subscribe((res) => this.getCart());
+  }
 }
