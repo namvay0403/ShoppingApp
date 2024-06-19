@@ -7,16 +7,16 @@ import com.nam.ShoppingApp.entity.Wishlist;
 import com.nam.ShoppingApp.repository.ProductRepository;
 import com.nam.ShoppingApp.repository.UserRepository;
 import com.nam.ShoppingApp.repository.WishlistRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class WishlistServiceImpl implements  WishlistService{
     @Autowired private WishlistRepository wishlistRepository;
     @Autowired private UserRepository userRepository;
@@ -46,5 +46,16 @@ public class WishlistServiceImpl implements  WishlistService{
     public List<WishlistDto> getWishlistByUserId(Long userId){
         List<Wishlist> wishlistList = wishlistRepository.findAllByUserId(userId);
         return wishlistList.stream().map(Wishlist::getWishlistDto).toList();
+    }
+
+    public WishlistDto removeItemFromWishlist(WishlistDto wishlistDto){
+        Optional<Wishlist> wishlist = wishlistRepository.findByProductIdAndUserId(wishlistDto.getProductId(), wishlistDto.getUserId());
+        log.info("wishlist: " + wishlist);
+        log.info("wishlistDto: " + wishlistDto);
+        if(wishlist.isPresent()){
+            wishlistRepository.delete(wishlist.get());
+            return wishlistDto;
+        }
+        return null;
     }
 }

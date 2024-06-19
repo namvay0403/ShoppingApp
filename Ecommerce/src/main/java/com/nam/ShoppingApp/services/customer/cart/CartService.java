@@ -17,4 +17,5 @@ public interface CartService {
     OrderDto placeOrder(PlaceOrderDto placeOrderDto);
     List<OrderDto> getMyPlacedOrders(Long userId);
     OrderDto searchOrderTrackingId(UUID trackingId);
+    OrderDto removeItemFromCart(AddProductInCartDto addProductInCartDto);
 }

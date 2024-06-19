@@ -21,6 +21,11 @@ public class CartController {
     return cartService.addProductToCart(addProductInCartDto);
   }
 
+  @PostMapping("/cart/removal")
+  public ResponseEntity<?> removeItemFromCart(@RequestBody AddProductInCartDto addProductInCartDto) {
+    return ResponseEntity.ok(cartService.removeItemFromCart(addProductInCartDto));
+  }
+
   @GetMapping("/cart/{userId}")
   public ResponseEntity<?> addProductToCart(@PathVariable Long userId) {
     OrderDto orderDto = cartService.getCartByUserId(userId);
@@ -58,4 +63,6 @@ public class CartController {
   public ResponseEntity<?> getMyPlacedOrders(@PathVariable Long userId) {
     return ResponseEntity.ok(cartService.getMyPlacedOrders(userId));
   }
+
+
 }
