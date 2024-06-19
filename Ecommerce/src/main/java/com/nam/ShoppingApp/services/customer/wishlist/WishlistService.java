@@ -7,4 +7,5 @@ import java.util.List;
 public interface WishlistService {
     WishlistDto addProductToWishlist(WishlistDto wishlistDto);
     List<WishlistDto> getWishlistByUserId(Long userId);
+    WishlistDto removeItemFromWishlist(WishlistDto wishlistDto);
 }

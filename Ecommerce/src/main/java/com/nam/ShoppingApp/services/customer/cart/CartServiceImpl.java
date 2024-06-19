@@ -254,4 +254,21 @@ public class CartServiceImpl implements CartService {
       return null;
     }
   }
+
+  public OrderDto removeItemFromCart(AddProductInCartDto addProductInCartDto) {
+    Optional<Order> optionalActiveOrder =
+        orderRepository.findByUserIdAndOrderStatus(addProductInCartDto.getUserId(), OrderStatus.PENDING);
+    Order activeOrder = optionalActiveOrder.get();
+    Optional<CartItem> optionalCartItem =
+        cartItemRepository.findByProductIdAndOrderIdAndUserId(
+                addProductInCartDto.getProductId(), activeOrder.getId(), addProductInCartDto.getUserId());
+    if (optionalCartItem.isPresent()) {
+      CartItem cartItem = optionalCartItem.get();
+      activeOrder.setAmount(activeOrder.getAmount() - cartItem.getPrice());
+      activeOrder.setTotalAmount(activeOrder.getTotalAmount() - cartItem.getPrice());
+      cartItemRepository.delete(cartItem);
+      orderRepository.save(activeOrder);
+    }
+    return activeOrder.getOrderDto();
+  }
 }

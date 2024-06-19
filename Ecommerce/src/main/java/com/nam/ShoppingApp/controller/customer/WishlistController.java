@@ -20,6 +20,11 @@ public class WishlistController {
         }
     }
 
+    @PostMapping("/wishlist/removal")
+    public ResponseEntity<?> removeItemFromWishlist(@RequestBody WishlistDto wishlistDto){
+        return ResponseEntity.ok(wishlistService.removeItemFromWishlist(wishlistDto));
+    }
+
     @GetMapping("/wishlist/{userId}")
     public ResponseEntity<?> getWishlistByUserId(@PathVariable Long userId){
         return ResponseEntity.ok(wishlistService.getWishlistByUserId(userId));
