@@ -21,4 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByDateBetweenAndOrderStatus(Date startOfMonth, Date endOfMonth, OrderStatus orderStatus);
 
     Long countByOrderStatus(OrderStatus orderStatus);
+
+    Optional<Order> findByIdAndUserId(Long orderId, Long userId);
 }
