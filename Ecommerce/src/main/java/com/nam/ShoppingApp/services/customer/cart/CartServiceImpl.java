@@ -55,13 +55,14 @@ public class CartServiceImpl implements CartService {
       activeOrder.setAmount(0L);
       activeOrder.setTotalAmount(0L);
       activeOrder = orderRepository.save(activeOrder);
+      log.info("new order: " + activeOrder);
     }
 
     Optional<CartItem> optionalCartItem =
-        cartItemRepository.findByProductIdAndOrderIdAndUserId(
-            addProductInCartDto.getProductId(),
-            activeOrder.getId(),
-            addProductInCartDto.getUserId());
+            cartItemRepository.findByProductIdAndOrderIdAndUserId(
+                    addProductInCartDto.getProductId(),
+                    activeOrder.getId(),
+                    addProductInCartDto.getUserId());
 
     if (optionalCartItem.isPresent()) {
       return ResponseEntity.status(HttpStatus.CONFLICT).body("Product already in cart");
@@ -234,6 +235,8 @@ public class CartServiceImpl implements CartService {
 
       orderRepository.save(activeOrder);
 
+      cartItemRepository.deleteAll(activeOrder.getCartItems());
+
       return activeOrder.getOrderDto();
     }
     return null;
@@ -243,7 +246,9 @@ public class CartServiceImpl implements CartService {
     List<Order> orders =
         orderRepository.findByUserIdAndOrderStatusIn(
             userId, List.of(OrderStatus.PLACED, OrderStatus.SHIPPED, OrderStatus.DELIVERED));
-    return orders.stream().map(Order::getOrderDto).toList();
+    var sortedOrders = orders.stream().sorted(Comparator.comparing(Order::getDate, Comparator.reverseOrder()));
+
+    return sortedOrders.map(Order::getOrderDto).toList();
   }
 
   public OrderDto searchOrderTrackingId(UUID trackingId) {
@@ -270,5 +275,12 @@ public class CartServiceImpl implements CartService {
       orderRepository.save(activeOrder);
     }
     return activeOrder.getOrderDto();
+  }
+
+  public Long getCartTotalPrice(Long orderId, Long userId) {
+    Optional<Order> optionalActiveOrder =
+        orderRepository.findByIdAndUserId(orderId, userId);
+    Order activeOrder = optionalActiveOrder.get();
+    return activeOrder.getAmount();
   }
 }
