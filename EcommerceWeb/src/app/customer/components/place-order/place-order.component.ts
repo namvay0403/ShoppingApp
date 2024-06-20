@@ -36,8 +36,9 @@ export class PlaceOrderComponent {
         this.snackBar.open('Order Placed Successfully', 'Close', {
           duration: 2000,
         });
-        this.router.navigateByUrl('/customer/my-orders');
+        this.router.navigateByUrl('/customer/my_orders');
         this.closeForm();
+        // this.payNow(res.orderId);
       },
       (error) => {
         this.snackBar.open(error.error, 'Close', {
@@ -47,7 +48,17 @@ export class PlaceOrderComponent {
     );
   }
 
-  closeForm(){
+  payNow(orderId: any) {
+    this.customerService.payNow(orderId).subscribe((res) => {
+      // this.snackBar.open('Payment Successful', 'Close', {
+      //   duration: 2000,
+      // });
+      console.log(res.paymentUrl);
+      window.location.href = res.paymentUrl;
+    });
+  }
+
+  closeForm() {
     this.dialog.closeAll();
   }
 }

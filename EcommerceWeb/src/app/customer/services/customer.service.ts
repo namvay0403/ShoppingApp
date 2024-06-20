@@ -79,7 +79,7 @@ export class CustomerService {
 
   placeOrder(orderDto: any): Observable<any> {
     orderDto.userId = UserStorageService.getUserId();
-    return this.http.post(BASE_URL + `api/customer/placeOrder`,orderDto, {
+    return this.http.post(BASE_URL + `api/customer/placeOrder`, orderDto, {
       headers: this.createAuthorizationHeader(),
     });
   }
@@ -93,9 +93,12 @@ export class CustomerService {
 
   getOrderedProducts(orderId: any): Observable<any> {
     const userId = UserStorageService.getUserId();
-    return this.http.get(BASE_URL + `api/customer/ordered-products/${orderId}`, {
-      headers: this.createAuthorizationHeader(),
-    });
+    return this.http.get(
+      BASE_URL + `api/customer/ordered-products/${orderId}`,
+      {
+        headers: this.createAuthorizationHeader(),
+      }
+    );
   }
 
   getProductDetailById(productId: any): Observable<any> {
@@ -105,7 +108,7 @@ export class CustomerService {
   }
 
   giveReview(reviewDto: any): Observable<any> {
-    return this.http.post(BASE_URL + `api/customer/review`,reviewDto, {
+    return this.http.post(BASE_URL + `api/customer/review`, reviewDto, {
       headers: this.createAuthorizationHeader(),
     });
   }
@@ -117,17 +120,30 @@ export class CustomerService {
   }
 
   removeItemFromWishlist(wishlistDto: any): Observable<any> {
-    return this.http.post(BASE_URL + `api/customer/wishlist/removal`, wishlistDto, {
-      headers: this.createAuthorizationHeader(),
-    });
+    return this.http.post(
+      BASE_URL + `api/customer/wishlist/removal`,
+      wishlistDto,
+      {
+        headers: this.createAuthorizationHeader(),
+      }
+    );
   }
-
 
   getWishlistByUserId(): Observable<any> {
     const userId = UserStorageService.getUserId();
     return this.http.get(BASE_URL + `api/customer/wishlist/${userId}`, {
       headers: this.createAuthorizationHeader(),
     });
+  }
+
+  payNow(orderId: any): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.get(
+      BASE_URL + `api/customer/payNow/${userId}/${orderId}`,
+      {
+        headers: this.createAuthorizationHeader(),
+      }
+    );
   }
 
   private createAuthorizationHeader() {

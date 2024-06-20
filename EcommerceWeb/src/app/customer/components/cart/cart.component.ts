@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomerService } from '../../services/customer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
@@ -19,7 +21,8 @@ export class CartComponent {
     private customerService: CustomerService,
     private snackBar: MatSnackBar,
     private formBuild: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +70,7 @@ export class CartComponent {
     );
   }
 
+
   increaseQuantity(productId: any) {
     this.customerService
       .increaseProductQuantity(productId)
@@ -80,7 +84,7 @@ export class CartComponent {
   }
 
   placeOrder() {
-    this.dialog.open(PlaceOrderComponent)
+    this.dialog.open(PlaceOrderComponent);
   }
 
   removeItem(productId: any) {
