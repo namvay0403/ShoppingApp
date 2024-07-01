@@ -47,7 +47,7 @@ export class LoginComponent {
         }
       },
       (error) => {
-        this.snackBar.open('Bad Credential', 'Close', {
+        this.snackBar.open(error.error['message'], 'Close', {
           duration: 2000,
         });
         console.log(error);

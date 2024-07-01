@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdminService } from '../../service/admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { error, log } from 'node:console';
 
 @Component({
   selector: 'app-post-coupon',
@@ -32,20 +33,20 @@ export class PostCouponComponent {
 
   addCoupon() {
     if (this.couponForm.valid) {
-      this.adminService
-        .addCoupon(this.couponForm.value)
-        .subscribe((response) => {
-          if (response.id != null) {
-            this.snackBar.open('Coupon added successfully', 'Close', {
-              duration: 2000,
-            });
-            this.router.navigateByUrl('/admin/dashboard');
-          } else {
-            this.snackBar.open(response.message, 'Close', {
-              duration: 2000,
-            });
-          }
-        });
+      this.adminService.addCoupon(this.couponForm.value).subscribe(
+        (response) => {
+          this.snackBar.open('Coupon added successfully', 'Close', {
+            duration: 2000,
+          });
+          this.router.navigateByUrl('/admin/dashboard');
+        },
+        (error) => {
+          this.snackBar.open(error.error['message'], 'Close', {
+            duration: 2000,
+          });
+          console.log(error);
+        }
+      );
     } else {
       this.couponForm.markAllAsTouched();
     }
