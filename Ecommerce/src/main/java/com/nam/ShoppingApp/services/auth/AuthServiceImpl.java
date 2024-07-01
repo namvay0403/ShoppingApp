@@ -6,10 +6,13 @@ import com.nam.ShoppingApp.entity.Order;
 import com.nam.ShoppingApp.entity.User;
 import com.nam.ShoppingApp.enums.OrderStatus;
 import com.nam.ShoppingApp.enums.UserRole;
+import com.nam.ShoppingApp.exception.AppException;
+import com.nam.ShoppingApp.exception.ErrorCode;
 import com.nam.ShoppingApp.repository.OrderRepository;
 import com.nam.ShoppingApp.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,13 @@ public class AuthServiceImpl implements AuthService {
     user.setName(signupRequest.getName());
     user.setRole(UserRole.CUSTOMER);
 
-    User savedUser = userRepository.save(user);
+    User savedUser;
+
+    try {
+      savedUser = userRepository.save(user);
+    } catch (DataIntegrityViolationException e) {
+      throw new AppException(ErrorCode.USER_EXISTED);
+    }
 
     Order order = new Order();
     order.setUser(savedUser);

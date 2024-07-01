@@ -1,8 +1,12 @@
 package com.nam.ShoppingApp.controller;
 
+import com.nam.ShoppingApp.dto.ApiResponse;
 import com.nam.ShoppingApp.dto.AuthenticationRequest;
 import com.nam.ShoppingApp.dto.SignupRequest;
+import com.nam.ShoppingApp.dto.UserDao;
 import com.nam.ShoppingApp.entity.User;
+import com.nam.ShoppingApp.exception.AppException;
+import com.nam.ShoppingApp.exception.ErrorCode;
 import com.nam.ShoppingApp.repository.UserRepository;
 import com.nam.ShoppingApp.services.auth.AuthService;
 import com.nam.ShoppingApp.utils.JwtUtil;
@@ -55,7 +59,7 @@ public class AuthController {
           new UsernamePasswordAuthenticationToken(
               authenticationRequest.getUsername(), authenticationRequest.getPassword()));
     } catch (BadCredentialsException e) {
-      throw new BadCredentialsException("Incorrect username or password");
+      throw new AppException(ErrorCode.UNAUTHENTICATED);
     }
     var userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
     Optional<User> optionalUser = userRepository.findByEmail(userDetails.getUsername());
@@ -80,11 +84,13 @@ public class AuthController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
-    if (authService.hasUserWithEmail(request.getEmail())) {
-      return ResponseEntity.badRequest().body("User with this email already exists");
-    }
+  public ApiResponse<UserDao> signup(@RequestBody SignupRequest request) {
+    ApiResponse<UserDao> response = new ApiResponse<>();
+//    if (authService.hasUserWithEmail(request.getEmail())) {
+//      throw new AppException(ErrorCode.USER_EXISTED);
+//    }
 
-    return ResponseEntity.ok(authService.createUser(request));
+    response.setResult(authService.createUser(request));
+    return response;
   }
 }
