@@ -6,6 +6,8 @@ import com.nam.ShoppingApp.dto.OrderDto;
 import com.nam.ShoppingApp.dto.PlaceOrderDto;
 import com.nam.ShoppingApp.entity.*;
 import com.nam.ShoppingApp.enums.OrderStatus;
+import com.nam.ShoppingApp.exception.AppException;
+import com.nam.ShoppingApp.exception.ErrorCode;
 import com.nam.ShoppingApp.exceptions.ValidationException;
 import com.nam.ShoppingApp.repository.*;
 import java.util.*;
@@ -128,9 +130,9 @@ public class CartServiceImpl implements CartService {
     Coupon coupon =
         couponRepository
             .findByCode(couponCode)
-            .orElseThrow(() -> new ValidationException("Coupon not found"));
+            .orElseThrow(() -> new AppException(ErrorCode.COUPON_NOT_FOUND));
     if (isExpired(coupon)) {
-      throw new ValidationException("Coupon is expired");
+      throw new AppException(ErrorCode.CUSTOMER_COUPON_EXPIRED);
     } else {
       activeOrder.setDiscount(coupon.getDiscount());
       double discountAmount = (coupon.getDiscount() / 100.0) * activeOrder.getTotalAmount();

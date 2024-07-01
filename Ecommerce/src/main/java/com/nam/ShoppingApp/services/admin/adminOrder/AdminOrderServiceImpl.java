@@ -4,6 +4,8 @@ import com.nam.ShoppingApp.dto.AnalyticsResponse;
 import com.nam.ShoppingApp.dto.OrderDto;
 import com.nam.ShoppingApp.entity.Order;
 import com.nam.ShoppingApp.enums.OrderStatus;
+import com.nam.ShoppingApp.exception.AppException;
+import com.nam.ShoppingApp.exception.ErrorCode;
 import com.nam.ShoppingApp.repository.OrderRepository;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -29,7 +31,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         Optional.ofNullable(
             orderRepository
                 .findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found")));
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND)));
     if (optionalOrder.isPresent()) {
       Order order = optionalOrder.get();
 
@@ -38,7 +40,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
       } else if (orderStatus.equals("Delivered")) {
         order.setOrderStatus(OrderStatus.DELIVERED);
       } else {
-        throw new RuntimeException("Invalid order status");
+        throw new AppException(ErrorCode.INVALID_ORDER_STATUS);
       }
 
       return orderRepository.save(order).getOrderDto();
