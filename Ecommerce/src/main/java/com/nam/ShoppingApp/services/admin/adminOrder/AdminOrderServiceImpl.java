@@ -39,6 +39,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         order.setOrderStatus(OrderStatus.SHIPPED);
       } else if (orderStatus.equals("Delivered")) {
         order.setOrderStatus(OrderStatus.DELIVERED);
+        order.setCartItems(optionalOrder.get().getCartItems());
       } else {
         throw new AppException(ErrorCode.INVALID_ORDER_STATUS);
       }

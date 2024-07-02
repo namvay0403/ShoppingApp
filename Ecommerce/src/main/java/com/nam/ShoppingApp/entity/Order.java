@@ -7,6 +7,7 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -15,56 +16,57 @@ import java.util.UUID;
 @Data
 @Table(name = "orders")
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String orderDescription;
+  private String orderDescription;
 
-    private Date date;
+  private Date date;
 
-    private Long amount;
+  private Long amount;
 
-    private String address;
+  private String address;
 
-    private String payment;
+  private String payment;
 
-    private OrderStatus orderStatus;
+  private OrderStatus orderStatus;
 
-    private Long totalAmount;
+  private Long totalAmount;
 
-    private Long discount;
+  private Long discount;
 
-    private UUID trackingId;
+  private UUID trackingId;
 
-    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+  @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+  @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  private User user;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "coupon_id", referencedColumnName = "id")
-    private Coupon coupon;
+  @OneToOne(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "coupon_id", referencedColumnName = "id")
+  private Coupon coupon;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<CartItem> cartItems = new ArrayList<>();
 
-    public OrderDto getOrderDto(){
-        OrderDto orderDto = new OrderDto();
-        orderDto.setId(this.id);
-        orderDto.setOrderDescription(this.orderDescription);
-        orderDto.setDate(this.date);
-        orderDto.setAmount(this.amount);
-        orderDto.setAddress(this.address);
-        orderDto.setPayment(this.payment);
-        orderDto.setOrderStatus(this.orderStatus);
-        orderDto.setTotalAmount(this.totalAmount);
-        orderDto.setDiscount(this.discount);
-        orderDto.setTrackingId(this.trackingId);
-        orderDto.setUserName(this.user.getName());
-        if (this.coupon != null) {
-            orderDto.setCouponCode(this.coupon.getCode());
-        }
-        return orderDto;
+  public OrderDto getOrderDto() {
+    OrderDto orderDto = new OrderDto();
+    orderDto.setId(this.id);
+    orderDto.setOrderDescription(this.orderDescription);
+    orderDto.setDate(this.date);
+    orderDto.setAmount(this.amount);
+    orderDto.setAddress(this.address);
+    orderDto.setPayment(this.payment);
+    orderDto.setOrderStatus(this.orderStatus);
+    orderDto.setTotalAmount(this.totalAmount);
+    orderDto.setDiscount(this.discount);
+    orderDto.setTrackingId(this.trackingId);
+    orderDto.setUserName(this.user.getName());
+    orderDto.setCartItems(this.cartItems.stream().map(CartItem::getItemDto).toList());
+    if (this.coupon != null) {
+      orderDto.setCouponCode(this.coupon.getCode());
     }
+    return orderDto;
+  }
 }
